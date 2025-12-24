@@ -9,7 +9,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center mb-4">
               <Building2 className="h-8 w-8 text-orange-600" />
-              <span className="ml-2 text-xl font-bold">BrickConstruct</span>
+              <span className="ml-2 text-xl font-bold">Brique Developer & Construction</span>
             </div>
             <p className="text-gray-400">
               Building dreams into reality with quality construction and real estate solutions since 2010.
@@ -66,14 +66,14 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 mr-2 flex-shrink-0" />
-                info@brickconstruct.com
+                info@briquedevelopers.com
               </li>
             </ul>
           </div>
         </div>
         
         <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-          <p>&copy; 2025 BrickConstruct. All rights reserved.</p>
+          <p>&copy; 2025 Brique Developer & Construction. All rights reserved.</p>
         </div>
       </div>
     </footer>

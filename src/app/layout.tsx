@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "Brick Developer & Construction",
+  title: "Brique Developer & Construction",
   description: "Construction & Real Estate Company",
 };
 
