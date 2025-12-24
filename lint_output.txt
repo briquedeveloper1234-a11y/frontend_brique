@@ -1,0 +1,33 @@
+﻿
+> brick-construction-website@0.1.0 lint
+> eslint
+
+
+C:\Users\DELL\brick-construction-website\src\app\about\page.tsx
+  19:149  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  19:210  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  25:26   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\DELL\brick-construction-website\src\app\contact\page.tsx
+  28:51  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\DELL\brick-construction-website\src\app\gallery\page.tsx
+  57:17  warning  Image elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+
+C:\Users\DELL\brick-construction-website\src\app\properties\page.tsx
+   4:78  warning  'ArrowRight' is defined but never used    @typescript-eslint/no-unused-vars
+  10:60  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\DELL\brick-construction-website\src\app\services\page.tsx
+    4:84  warning  'TrendingUp' is defined but never used                           @typescript-eslint/no-unused-vars
+    8:58  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  200:20  error    'Square' is not defined                                          react/jsx-no-undef
+  360:19  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  360:38  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  407:16  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\DELL\brick-construction-website\src\components\Sites.tsx
+  31:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+Γ£û 14 problems (10 errors, 4 warnings)
+
