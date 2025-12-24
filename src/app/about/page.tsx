@@ -439,15 +439,23 @@ const AboutPage = () => {
 
                 <div className="grid md:grid-cols-3 gap-12">
                   {[
-                    { name: 'John Anderson', role: 'CEO & FOUNDER' },
-                    { name: 'Sarah Mitchell', role: 'OPERATIONS' },
-                    { name: 'Michael Chen', role: 'REAL ESTATE' },
+                    { name: 'Mr. Bhupendra', role: 'CEO & FOUNDER', image: '/site images/team_member_1.png' },
+                    { name: 'Mr. S.M. Ali', role: 'MARKETING HEAD ', image: '/site images/team_member_2_v2.png' },
+                    { name: 'Rajnni Yadeev', role: "REAL ESTATE EXPERTISE", image: '/site images/team_member_3.jpg' },
                   ].map((member, idx) => (
                     <div key={idx} className="group">
                       <div className="relative aspect-[4/5] bg-slate-800 rounded-[3rem] overflow-hidden mb-6 border border-white/5">
-                        <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
-                          <Users size={120} className="text-orange-500" />
-                        </div>
+                        {member.image ? (
+                           <img 
+                           src={member.image} 
+                           alt={member.name} 
+                           className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                         />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
+                            <Users size={120} className="text-orange-500" />
+                          </div>
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
                         <div className="absolute bottom-8 left-8">
                            <p className="text-orange-500 font-black text-xs tracking-[0.3em] mb-2 uppercase">{member.role}</p>
