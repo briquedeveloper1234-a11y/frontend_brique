@@ -230,17 +230,17 @@ const Contact = () => {
     { 
       icon: MapPin, 
       title: 'Office Address', 
-      desc: '123 Construction Avenue, City Center, State 12345',
+      desc: 'D,89 sector 2 , Noida, Uttar Pradesh',
     },
     { 
       icon: Phone, 
       title: 'Phone', 
-      desc: '+1 (555) 123-4567',
+      desc: '0120 28 407036  , 0120 28 405999',
     },
     { 
       icon: Mail, 
       title: 'Email', 
-      desc: 'info@brickconstruct.com',
+      desc: 'info@briquedevelopers.com',
     },
     { 
       icon: Clock, 
