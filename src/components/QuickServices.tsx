@@ -1,12 +1,15 @@
 "use client";
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowRight, Layers, Zap } from 'lucide-react';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const QuickServices = () => {
+  const router = useRouter();
+
   const handleNavigation = (path: string) => {
-    console.log("Navigating to:", path);
+    router.push(path);
   };
 
   return (

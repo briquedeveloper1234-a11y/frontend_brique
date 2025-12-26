@@ -60,17 +60,17 @@ const HomePage = () => {
     { 
       icon: MapPin, 
       title: 'Office Address', 
-      desc: '123 Construction Avenue, City Center, State 12345',
+      desc: 'D,89 sector 2 , Noida, Uttar Pradesh',
     },
     { 
       icon: Phone, 
       title: 'Phone', 
-      desc: '+1 (555) 123-4567',
+      desc: '0120 28 407036  , 0120 28 405999',
     },
     { 
       icon: Mail, 
       title: 'Email', 
-      desc: 'info@brickconstruct.com',
+      desc: 'info@briquedevelopers.com',
     },
     { 
       icon: Clock, 
@@ -460,7 +460,8 @@ const HomePage = () => {
               <motion.div 
                 key={idx} 
                 whileHover={{ y: -15 }}
-                className="group bg-white rounded-[2rem] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] transition-all"
+                className="group bg-white rounded-[2rem] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] transition-all cursor-pointer"
+                onClick={() => handleNavigation('/properties')}
               >
                 <div className="relative h-80 overflow-hidden">
                   <img 

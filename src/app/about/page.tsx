@@ -439,9 +439,15 @@ const AboutPage = () => {
 
                 <div className="grid md:grid-cols-3 gap-12">
                   {[
-                    { name: 'Mr. Bhupendra', role: 'CEO & FOUNDER', image: '/site images/team_member_1.png' },
-                    { name: 'Mr. S.M. Ali', role: 'MARKETING HEAD ', image: '/site images/team_member_2_v2.png' },
-                    { name: 'Rajnni Yadeev', role: "REAL ESTATE EXPERTISE", image: '/site images/team_member_3.jpg' },
+                    { name: 'Mr. Bhupendra',
+                      //  role: 'CEO & FOUNDER', 
+                       image: '/site images/team_member_1.png' },
+                    { name: 'Mr. S.M. Ali',
+                       //  role: 'MARKETING HEAD ', 
+                       image: '/site images/team_member_2_v3.jpg' },
+                    { name: 'Rajnni Yadeev', 
+                      // role: "REAL ESTATE EXPERTISE", 
+                      image: '/site images/team_member_3.jpg' },
                   ].map((member, idx) => (
                     <div key={idx} className="group">
                       <div className="relative aspect-[4/5] bg-slate-800 rounded-[3rem] overflow-hidden mb-6 border border-white/5">
@@ -458,7 +464,7 @@ const AboutPage = () => {
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
                         <div className="absolute bottom-8 left-8">
-                           <p className="text-orange-500 font-black text-xs tracking-[0.3em] mb-2 uppercase">{member.role}</p>
+                           {/* <p className="text-orange-500 font-black text-xs tracking-[0.3em] mb-2 uppercase">{member.role}</p> */}
                            <h3 className="text-2xl font-bold text-white uppercase">{member.name}</h3>
                         </div>
                       </div>
