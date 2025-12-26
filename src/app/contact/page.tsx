@@ -15,38 +15,38 @@ const Contact = () => {
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setError('');
-  setIsLoading(true);
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
 
-  try {
-    // Call your backend API
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
+    try {
+      // Call your backend API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    const data = await response.json();
-    
-    if (data.success) {
-      setIsSubmitted(true);
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-      }, 5000);
-    } else {
-      throw new Error(data.message || 'Failed to send message');
+      const data = await response.json();
+      
+      if (data.success) {
+        setIsSubmitted(true);
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+        }, 5000);
+      } else {
+        throw new Error(data.message || 'Failed to send message');
+      }
+    } catch (err) {
+      console.error('Submission Error:', err);
+      setError('Failed to send message. Please try again or contact us directly at info@briquedevelopers.com');
+    } finally {
+      setIsLoading(false);
     }
-  } catch (err) {
-    console.error('Submission Error:', err);
-    setError('Failed to send message. Please try again or contact us directly at info@briquedevelopers.com');
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   const contactInfo = [
     { 
@@ -95,7 +95,7 @@ const Contact = () => {
           </div>
           <h2 className="text-5xl font-bold text-white mb-4">Get In Touch</h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Ready to start your project? Let's discuss how we can bring your vision to life
+            Ready to start your project? Let&apos;s discuss how we can bring your vision to life
           </p>
         </div>
 
@@ -230,7 +230,7 @@ const Contact = () => {
                   Message Sent Successfully!
                 </h3>
                 <p className="text-gray-400 text-lg">
-                  Thank you for reaching out. We'll get back to you within 24 hours.
+                  Thank you for reaching out. We&apos;ll get back to you within 24 hours.
                 </p>
               </div>
             )}
