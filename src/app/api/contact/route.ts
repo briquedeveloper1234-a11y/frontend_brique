@@ -35,7 +35,7 @@ export async function POST(request: Request) {
 
     // Send email via Resend
     const { data, error } = await resend.emails.send({
-      from: 'Brique Developers <onboarding@resend.dev>',
+      from: 'Brique Developers <noreply@briquedevelopers.com>',
       to: ['info@briquedevelopers.com'],
       replyTo: email, // Allows you to reply directly to customer
       subject: `🏗️ New Contact: ${service} - ${name}`,
