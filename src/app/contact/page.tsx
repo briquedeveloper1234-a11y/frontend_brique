@@ -1,6 +1,5 @@
 'use client';
-import { useState, type FormEvent } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Building2, Users, AlertCircle } from 'lucide-react';
 
 const Contact = () => {
@@ -15,51 +14,31 @@ const Contact = () => {
     message: ''
   });
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      // Use Claude API to send email notification
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
+      // Call your backend API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [
-            {
-              role: "user",
-              content: `Please create a professional email notification for a contact form submission with these details:
-
-Name: ${formData.name}
-Email: ${formData.email}
-Phone: ${formData.phone}
-Service Interested In: ${formData.service}
-Message: ${formData.message}
-
-Format it as a clean, professional email that would be sent to info@briquedevelopers.com`
-            }
-          ],
-        })
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
       
-      if (data.content && data.content[0]) {
-        // Successfully processed
-        console.log('Email content generated:', data.content[0].text);
-        
+      if (data.success) {
         setIsSubmitted(true);
         setTimeout(() => {
           setIsSubmitted(false);
           setFormData({ name: '', email: '', phone: '', service: '', message: '' });
         }, 5000);
       } else {
-        throw new Error('Failed to process submission');
+        throw new Error(data.message || 'Failed to send message');
       }
     } catch (err) {
       console.error('Submission Error:', err);
@@ -97,24 +76,8 @@ Format it as a clean, professional email that would be sent to info@briquedevelo
       
       {/* LIVE ARCHITECTURAL BACKGROUND */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <motion.div 
-          animate={{ 
-            x: [0, 100, 0], 
-            y: [0, -50, 0],
-            opacity: [0.1, 0.2, 0.1] 
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-orange-900/10 blur-[120px] rounded-full"
-        />
-        <motion.div 
-          animate={{ 
-            x: [0, -80, 0], 
-            y: [0, 100, 0],
-            opacity: [0.05, 0.15, 0.05] 
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-zinc-700/10 blur-[100px] rounded-full"
-        />
+        <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-orange-900/10 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-zinc-700/10 blur-[100px] rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
 
         <div className="absolute inset-0 opacity-[0.03]" style={{ 
           backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
@@ -124,237 +87,174 @@ Format it as a clean, professional email that would be sent to info@briquedevelo
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", duration: 0.6 }}
-            className="inline-block mb-4"
-          >
+        <div className="text-center mb-16 animate-fadeIn">
+          <div className="inline-block mb-4">
             <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
               <Send className="w-8 h-8 text-white" />
             </div>
-          </motion.div>
+          </div>
           <h2 className="text-5xl font-bold text-white mb-4">Get In Touch</h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
             Ready to start your project? Let's discuss how we can bring your vision to life
           </p>
-        </motion.div>
+        </div>
 
-        {/* Contact Info Cards - Fixed Grid */}
+        {/* Contact Info Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {contactInfo.map((item, idx) => (
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              whileHover={{ y: -5, scale: 1.02 }}
-              className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:border-orange-600/30 backdrop-blur-md h-full"
+              className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:border-orange-600/30 hover:-translate-y-1 backdrop-blur-md h-full"
             >
               <div className="w-12 h-12 bg-zinc-900/50 rounded-xl flex items-center justify-center mb-4 border border-white/5">
                 <item.icon className="w-6 h-6 text-orange-600" />
               </div>
               <h4 className="font-bold text-white mb-2 text-base">{item.title}</h4>
               <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
         
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Left Column - Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-white/[0.02] border border-white/10 rounded-2xl p-8 shadow-xl backdrop-blur-md"
-          >
-            <AnimatePresence mode="wait">
-              {!isSubmitted ? (
-                <motion.form
-                  key="form"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onSubmit={handleSubmit}
-                  className="space-y-6"
-                >
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-400 mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        className="w-full px-4 py-3 bg-zinc-900/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white placeholder:text-zinc-600"
-                        placeholder="John Doe"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-400 mb-2">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className="w-full px-4 py-3 bg-zinc-900/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white placeholder:text-zinc-600"
-                        placeholder="john@example.com"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-400 mb-2">
-                        Phone Number *
-                      </label>
-                      <input
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        className="w-full px-4 py-3 bg-zinc-900/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white placeholder:text-zinc-600"
-                        placeholder="+1 (555) 000-0000"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-400 mb-2">
-                        Service Interested In *
-                      </label>
-                      <select
-                        value={formData.service}
-                        onChange={(e) => setFormData({...formData, service: e.target.value})}
-                        className="w-full px-4 py-3 bg-zinc-900/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white"
-                        required
-                      >
-                        <option value="">Select a service</option>
-                        <option value="construction">Construction Services</option>
-                        <option value="buy">Property Purchase</option>
-                        <option value="rent">Property Rental</option>
-                        <option value="mortgage">Mortgage Solutions</option>
-                      </select>
-                    </div>
-                  </div>
-
+          <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-8 shadow-xl backdrop-blur-md">
+            {!isSubmitted ? (
+              <div className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-400 mb-2">
-                      Your Message *
+                      Full Name *
                     </label>
-                    <textarea
-                      value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
-                      rows={5}
-                      className="w-full px-4 py-3 bg-zinc-900/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all resize-none text-white placeholder:text-zinc-600"
-                      placeholder="Tell us about your project requirements..."
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      className="w-full px-4 py-3 bg-zinc-900/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white placeholder:text-zinc-600"
+                      placeholder="John Doe"
                       required
                     />
                   </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-400 mb-2">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className="w-full px-4 py-3 bg-zinc-900/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white placeholder:text-zinc-600"
+                      placeholder="john@example.com"
+                      required
+                    />
+                  </div>
+                </div>
 
-                  <motion.button
-                    type="submit"
-                    disabled={isLoading}
-                    whileHover={{ scale: isLoading ? 1 : 1.02 }}
-                    whileTap={{ scale: isLoading ? 1 : 0.98 }}
-                    className={`w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
-                  >
-                    {isLoading ? (
-                      <>
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                          className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                        />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        Send Message
-                      </>
-                    )}
-                  </motion.button>
-
-                  {error && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3"
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-400 mb-2">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      className="w-full px-4 py-3 bg-zinc-900/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white placeholder:text-zinc-600"
+                      placeholder="+91 98765 43210"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-400 mb-2">
+                      Service Interested In *
+                    </label>
+                    <select
+                      value={formData.service}
+                      onChange={(e) => setFormData({...formData, service: e.target.value})}
+                      className="w-full px-4 py-3 bg-zinc-900/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white"
+                      required
                     >
-                      <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                      <p className="text-sm text-red-400">{error}</p>
-                    </motion.div>
-                  )}
-                </motion.form>
-              ) : (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  className="py-20 text-center"
+                      <option value="">Select a service</option>
+                      <option value="construction">Construction Services</option>
+                      <option value="buy">Property Purchase</option>
+                      <option value="rent">Property Rental</option>
+                      <option value="mortgage">Mortgage Solutions</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">
+                    Your Message *
+                  </label>
+                  <textarea
+                    value={formData.message}
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                    rows={5}
+                    className="w-full px-4 py-3 bg-zinc-900/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all resize-none text-white placeholder:text-zinc-600"
+                    placeholder="Tell us about your project requirements..."
+                    required
+                  />
+                </div>
+
+                <button
+                  onClick={handleSubmit}
+                  disabled={isLoading}
+                  className={`w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:scale-[1.02] active:scale-[0.98]'}`}
                 >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", duration: 0.6 }}
-                    className="w-20 h-20 bg-green-500/20 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6"
-                  >
-                    <CheckCircle className="w-10 h-10 text-green-500" />
-                  </motion.div>
-                  <h3 className="text-3xl font-bold text-white mb-4">
-                    Message Sent Successfully!
-                  </h3>
-                  <p className="text-gray-400 text-lg">
-                    Thank you for reaching out. We'll get back to you within 24 hours.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
+                  {isLoading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      Send Message
+                    </>
+                  )}
+                </button>
+
+                {error && (
+                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3 animate-fadeIn">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-red-400">{error}</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="py-20 text-center animate-fadeIn">
+                <div className="w-20 h-20 bg-green-500/20 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-10 h-10 text-green-500" />
+                </div>
+                <h3 className="text-3xl font-bold text-white mb-4">
+                  Message Sent Successfully!
+                </h3>
+                <p className="text-gray-400 text-lg">
+                  Thank you for reaching out. We'll get back to you within 24 hours.
+                </p>
+              </div>
+            )}
+          </div>
 
           {/* Right Column - Info Cards */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="space-y-6"
-          >
+          <div className="space-y-6">
             {/* Why Choose Us Card */}
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className="bg-gradient-to-br from-orange-600 to-orange-700 rounded-2xl p-8 text-white shadow-xl"
-            >
+            <div className="bg-gradient-to-br from-orange-600 to-orange-700 rounded-2xl p-8 text-white shadow-xl hover:scale-[1.02] transition-transform">
               <h3 className="text-2xl font-bold mb-6">Why Choose Us?</h3>
               <div className="space-y-4">
                 {['Licensed & Insured', 'Quality Workmanship', 'Transparent Pricing', 'Excellent Support'].map((item, idx) => (
-                  <motion.div 
-                    key={idx}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.1 + 0.3 }}
-                    className="flex items-center"
-                  >
+                  <div key={idx} className="flex items-center">
                     <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                       <CheckCircle className="h-5 w-5" />
                     </div>
                     <span className="font-medium">{item}</span>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* Stats Card */}
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className="bg-white/[0.02] border border-white/10 rounded-2xl p-8 shadow-lg backdrop-blur-md"
-            >
+            <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-8 shadow-lg backdrop-blur-md hover:scale-[1.02] transition-transform">
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-orange-600/20 rounded-xl flex items-center justify-center mx-auto mb-3 border border-orange-600/30">
@@ -371,35 +271,40 @@ Format it as a clean, professional email that would be sent to info@briquedevelo
                   <div className="text-sm text-gray-400">Happy Clients</div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Image Grid */}
             <div className="grid grid-cols-2 gap-4">
-              <motion.div
-                whileHover={{ scale: 1.05, rotate: -2 }}
-                className="relative h-32 rounded-xl overflow-hidden shadow-lg border border-white/10"
-              >
+              <div className="relative h-32 rounded-xl overflow-hidden shadow-lg border border-white/10 hover:scale-105 hover:-rotate-2 transition-transform">
                 <img
                   src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
                   alt="Office"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05, rotate: 2 }}
-                className="relative h-32 rounded-xl overflow-hidden shadow-lg border border-white/10"
-              >
+              </div>
+              <div className="relative h-32 rounded-xl overflow-hidden shadow-lg border border-white/10 hover:scale-105 hover:rotate-2 transition-transform">
                 <img
                   src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop"
+                  alt="Team"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out;
+        }
+      `}</style>
     </section>
   );
 };
