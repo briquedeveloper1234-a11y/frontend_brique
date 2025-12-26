@@ -174,10 +174,10 @@ const Contact = () => {
                       required
                     >
                       <option value="">Select a service</option>
-                      <option value="construction">Construction Services</option>
-                      <option value="buy">Property Purchase</option>
-                      <option value="rent">Property Rental</option>
-                      <option value="mortgage">Mortgage Solutions</option>
+                      <option value="Construction services">Construction Services</option>
+                      <option value="Property purchase">Property Purchase</option>
+                      <option value="Property rental">Property Rental</option>
+                      <option value="Mortgage solutions">Mortgage Solutions</option>
                     </select>
                   </div>
                 </div>
