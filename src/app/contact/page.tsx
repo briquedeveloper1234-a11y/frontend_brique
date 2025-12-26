@@ -539,7 +539,7 @@
 
 // export default Contact;
 'use client';
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Building2, Users, AlertCircle } from 'lucide-react';
 
@@ -555,7 +555,7 @@ const Contact = () => {
     message: ''
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
