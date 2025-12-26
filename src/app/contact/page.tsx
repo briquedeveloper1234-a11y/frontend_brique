@@ -14,39 +14,39 @@ const Contact = () => {
     message: ''
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setError('');
+  setIsLoading(true);
 
-    try {
-      // Call your backend API
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+  try {
+    // Call your backend API
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
 
-      const data = await response.json();
-      
-      if (data.success) {
-        setIsSubmitted(true);
-        setTimeout(() => {
-          setIsSubmitted(false);
-          setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-        }, 5000);
-      } else {
-        throw new Error(data.message || 'Failed to send message');
-      }
-    } catch (err) {
-      console.error('Submission Error:', err);
-      setError('Failed to send message. Please try again or contact us directly at info@briquedevelopers.com');
-    } finally {
-      setIsLoading(false);
+    const data = await response.json();
+    
+    if (data.success) {
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+      }, 5000);
+    } else {
+      throw new Error(data.message || 'Failed to send message');
     }
-  };
+  } catch (err) {
+    console.error('Submission Error:', err);
+    setError('Failed to send message. Please try again or contact us directly at info@briquedevelopers.com');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const contactInfo = [
     { 
@@ -119,7 +119,7 @@ const Contact = () => {
           {/* Left Column - Form */}
           <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-8 shadow-xl backdrop-blur-md">
             {!isSubmitted ? (
-              <div className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-400 mb-2">
@@ -197,7 +197,7 @@ const Contact = () => {
                 </div>
 
                 <button
-                  onClick={handleSubmit}
+                  type="submit"
                   disabled={isLoading}
                   className={`w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:scale-[1.02] active:scale-[0.98]'}`}
                 >
@@ -220,7 +220,7 @@ const Contact = () => {
                     <p className="text-sm text-red-400">{error}</p>
                   </div>
                 )}
-              </div>
+              </form>
             ) : (
               <div className="py-20 text-center animate-fadeIn">
                 <div className="w-20 h-20 bg-green-500/20 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
